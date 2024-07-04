@@ -1,7 +1,17 @@
 <h2>pong</h2>
 <div class="container-fluid">
     <div class="container-fluid">
-        <btn class="btn btn-primary" id="trainBtn">Train</btn>
+        <form action="">
+            <label for="rounds">Rounds</label>
+            <input type="text" name="rounds">
+            <label for="discountFactor">Discount Factor</label>
+            <input type="text" name="discountFactor">
+            <label for="learningRate">Learning Rate</label>
+            <input type="text" name="learningRate">
+            <label for="explorationRatio">Exploration Ratio</label>
+            <input type="text" name="explorationRatio">
+            <btn type="submit" class="btn btn-primary" id="trainBtn">Train</btn>
+        </form>
         <br><br>
         <btn class="btn btn-primary" id="playBtn">Play</btn>
     </div>

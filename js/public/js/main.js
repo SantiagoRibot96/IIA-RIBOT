@@ -10,6 +10,11 @@ export const max_lives = 3;
 export const max_score = 200;
 export const mov = 5;
 
+const defaultDiscountFactor = 0.1;
+const defaultLearningRate = 0.1;
+const defaultRounds = 5000;
+const defaultExplorationRatio = 0.9;
+
 let enviroment = new Enviroment();
 let agent = new Agent(enviroment, enviroment.policy);
 
@@ -20,7 +25,18 @@ document.addEventListener("DOMContentLoaded", (e) => {
 trainBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     console.log("Entrenando!");
-    let res = await play(null, null, false, 5000, 0.1, 0.1, 0.9);
+
+    const rounds = parseFloat(document.querySelector('input[name="rounds"]').value);
+    const discountFactor = parseFloat(document.querySelector('input[name="discountFactor"]').value);
+    const learningRate = parseFloat(document.querySelector('input[name="learningRate"]').value);
+    const explorationRatio = parseFloat(document.querySelector('input[name="explorationRatio"]').value);
+
+    console.log("Rounds: ", rounds||defaultRounds);
+    console.log("Discount Factor: ", discountFactor||defaultDiscountFactor);
+    console.log("Learning Rate: ", learningRate||defaultLearningRate);
+    console.log("Exploration ratio: ", explorationRatio||defaultExplorationRatio);
+
+    let res = await play(null, null, false, rounds||defaultRounds, discountFactor||defaultDiscountFactor, learningRate||defaultLearningRate, explorationRatio||defaultExplorationRatio);
     enviroment = res.enviroment;
     agent = res.agent;
 });
@@ -32,7 +48,7 @@ playBtn.addEventListener("click", async (e) => {
     await play(agent, enviroment, true, 1, 0.1, 0.1, 1);
 });
 
-const play = async (agent = null, enviroment = null, animate = false, rounds = 5000, discountFactor = 0.1, learningRate = 0.1, explorationRatio = 0.7) => {
+const play = async (agent = null, enviroment = null, animate = false, rounds = defaultRounds, discountFactor = defaultDiscountFactor, learningRate = defaultLearningRate, explorationRatio = defaultExplorationRatio) => {
     let fakePolicy = null;
     const myDiv = document.getElementById("myDiv");
     if(!enviroment) {
@@ -45,6 +61,7 @@ const play = async (agent = null, enviroment = null, animate = false, rounds = 5
     }
 
     let firstMax = 0;
+    let wins = 0;
     let max = -9999;
     let totalReward = 0;
 
@@ -73,6 +90,8 @@ const play = async (agent = null, enviroment = null, animate = false, rounds = 5
 
         totalReward += enviroment.totalScore;
 
+        if(enviroment.totalScore >= max_score) wins++;
+
         if(enviroment.totalScore > max) {
             max = enviroment.totalScore;
             firstMax = playedGames;
@@ -80,10 +99,11 @@ const play = async (agent = null, enviroment = null, animate = false, rounds = 5
 
         if(playedGames%500 === 0 && playedGames > 1 && !animate) {
             contador += 1;
-            console.log(`-- Games: [${playedGames}] -- AvgScore: [${(totalReward/(500*contador)).toFixed(2)}] -- AvgSteps: [${iteration}] -- MaxScore: [${max}] -- GameOfFirstMax: [${firstMax}]`);
+            console.log(`-- Games: [${playedGames}] -- AvgScore: [${(totalReward/(500*contador)).toFixed(2)}] -- AvgSteps: [${iteration}] -- MaxScore: [${max}] -- GameOfFirstMax: [${firstMax}] -- Wins: [${wins}]`);
             max = 0;
             firstMax = 0;
             totalReward = 0;
+            wins = 0;
         }
     }
 
