@@ -186,11 +186,11 @@ export default class Enviroment {
             shapes: shapes,
             annotations: annotations,
             xaxis: {
-                range: [0, width_px],
+                range: [0, width_px+2.5],
                 showticklabels: true
             },
             yaxis: {
-                range: [0, height_px],
+                range: [0, height_px+2.5],
                 showticklabels: true
             },
             width: 500,

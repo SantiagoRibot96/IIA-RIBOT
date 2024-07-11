@@ -106,33 +106,41 @@ export default class Agent {
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
 
-            // Crear encabezados de columna
             const headRow = document.createElement('tr');
+            headRow.innerHTML = `<td></td><th COLSPAN=2>X0</th><th COLSPAN=2>X1</th><th COLSPAN=2>X2</th><th COLSPAN=2>X3</th><th COLSPAN=2>X4</th><th COLSPAN=2>X5</th><th COLSPAN=2>X6</th><th COLSPAN=2>X7</th><th COLSPAN=2>X8</th><th COLSPAN=2>X9</th>`;
+            thead.appendChild(headRow);
 
             // Llenar tabla con datos
             for (let j = 0; j < this.q_table[i].length; j++) {
-            for (let k = 0; k < this.q_table[i][j].length; k++) {
-                headRow.innerHTML = `<th></th><th>${i}</th>`;
-                thead.appendChild(headRow);
-                for (let l = 0; l < this.q_table[i][j][k].length; l++) {
-                const valor = this.q_table[i][j][k][l];
+
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${j}</td>
-                    <td>${k}</td>
-                    <td>${l}</td>
-                    <td>${valor}</td>
-                `;
-                tbody.appendChild(row);
+                row.innerHTML = `<th>${j}</th>`
+                for (let k = 0; k < this.q_table[i][j].length; k++) {
+
+                    const valorUp = this.q_table[i][j][k][0];
+                    const valorDown = this.q_table[i][j][k][1];
+                    
+                    if(valorUp < 0.01 || valorDown < 0.01){
+                        row.innerHTML += `
+                            <td>${valorUp.toExponential(2)}</td>
+                            <td>${valorDown.toExponential(2)}</td>
+                        `;
+                    }else{
+                        row.innerHTML += `
+                            <td>${valorUp.toFixed(2)}</td>
+                            <td>${valorDown.toFixed(2)}</td>
+                        `;
+                    }
+                    tbody.appendChild(row);
                 }
-            }
             }
 
             table.appendChild(thead);
             table.appendChild(tbody);
             tableContainer.appendChild(table);
             container.appendChild(tableContainer);
-      }
+            container.innerHTML += `<br>`;
+        }
     }
 
     getPolicy() {

@@ -49,10 +49,19 @@ playBtn.addEventListener("click", async (e) => {
     await play(agent, enviroment, true, 1, 0.1, 0.1, 1);
 });
 
+let flag = true;
+
 print.addEventListener("click", async (e) => {
     e.preventDefault();
     
-    agent.printPolicy();
+    if(flag){
+        agent.printPolicy();
+        flag = false;
+    }else {
+        flag = true;
+        const container = document.getElementById('arrayContainer');
+        container.innerHTML = '';
+    }
 });
 
 const play = async (agent = null, enviroment = null, animate = false, rounds = defaultRounds, discountFactor = defaultDiscountFactor, learningRate = defaultLearningRate, explorationRatio = defaultExplorationRatio) => {
