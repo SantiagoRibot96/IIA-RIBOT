@@ -125,7 +125,7 @@ export default class Enviroment {
             y0: this.y,
             x1: this.x+this.radio,
             y1: this.y+this.radio,
-            fillcolor: 'slategray',
+            fillcolor: 'red',
             line: {
             color: 'black'
             }
@@ -138,14 +138,14 @@ export default class Enviroment {
             y0: this.player,
             x1: 5,
             y1: this.player + this.paddleHeight,
-            fillcolor: 'gold',
+            fillcolor: 'blue',
             line: {
             color: 'none'
             }
         }];
 
         const annotations = [{
-            x: 4,
+            x: 10,
             y: height_px,
             xref: 'x',
             yref: 'y',
