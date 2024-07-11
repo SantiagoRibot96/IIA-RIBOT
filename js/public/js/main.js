@@ -3,6 +3,7 @@ import Agent from "./agent.js";
 
 const trainBtn = document.getElementById("trainBtn");
 const playBtn = document.getElementById("playBtn");
+const print = document.getElementById("print");
 
 export const width_px = 50;
 export const height_px = 40;
@@ -46,6 +47,12 @@ playBtn.addEventListener("click", async (e) => {
     console.log("Jugando!");
     //play(agent, enviroment, animate, rounds, discountFactor, learningRate, explorationRatio)
     await play(agent, enviroment, true, 1, 0.1, 0.1, 1);
+});
+
+print.addEventListener("click", async (e) => {
+    e.preventDefault();
+    
+    agent.printPolicy();
 });
 
 const play = async (agent = null, enviroment = null, animate = false, rounds = defaultRounds, discountFactor = defaultDiscountFactor, learningRate = defaultLearningRate, explorationRatio = defaultExplorationRatio) => {
@@ -107,7 +114,7 @@ const play = async (agent = null, enviroment = null, animate = false, rounds = d
         }
     }
 
-    if(!animate) agent.printPolicy();
+    if(!animate) console.log(agent.q_table);
 
     return {agent, enviroment}
 }

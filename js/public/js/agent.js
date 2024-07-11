@@ -93,20 +93,46 @@ export default class Agent {
     }
 
     printPolicy() {
-        // for(let row of this.q_table) {
-        //     let rowStr = '';
-        //     for(let column of row) {
-        //         rowStr += '[';
-        //         for(let value of column) {
-        //             rowStr += value.toFixed(1).toString().padStart(6, ' ') + ' ';
-        //         }
-        //         rowStr += ']';
-        //     }
+        const container = document.getElementById('arrayContainer');
+        container.innerHTML = '';
 
-        //     vconsole.log(rowStr.trim());
-        // }
+        // Recorremos el primer índice del array para generar cada cuadro
+        for (let i = 0; i < this.q_table.length; i++) {
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-container');
+            tableContainer.innerHTML = `<h3>Cuadro ${i}</h3>`;
 
-        console.log(this.q_table);
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Crear encabezados de columna
+            const headRow = document.createElement('tr');
+
+            // Llenar tabla con datos
+            for (let j = 0; j < this.q_table[i].length; j++) {
+            for (let k = 0; k < this.q_table[i][j].length; k++) {
+                headRow.innerHTML = `<th></th><th>${i}</th>`;
+                thead.appendChild(headRow);
+                for (let l = 0; l < this.q_table[i][j][k].length; l++) {
+                const valor = this.q_table[i][j][k][l];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${j}</td>
+                    <td>${k}</td>
+                    <td>${l}</td>
+                    <td>${valor}</td>
+                `;
+                tbody.appendChild(row);
+                }
+            }
+            }
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+            container.appendChild(tableContainer);
+      }
     }
 
     getPolicy() {
